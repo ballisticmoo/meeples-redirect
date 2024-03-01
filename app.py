@@ -2,18 +2,31 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-redirects = {}
+# for meeples website
 
 @app.route('/')
 def index():
-    return redirect(url_for('home'))
+    return redirect("home")
 
-@app.route("/home", methods=['POST', 'GET'])
+@app.route('/home')
 def home():
+    return render_template("home.html")
+
+@app.route('/prank')
+def prank():
+    return render_template('prank.html')
+
+
+# for url shortener
+
+redirects = {}
+
+@app.route("/admin", methods=['POST', 'GET'])
+def admin():
     if request.method == 'POST':
         redirects[request.form['back-half']] = request.form['destination']
     
-    return render_template('home.html')    
+    return render_template('admin.html')    
 
 @app.route("/<path>")
 def router(path):
